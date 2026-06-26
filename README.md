@@ -7,6 +7,46 @@
 
 A [Claude Code](https://claude.com/claude-code) skill that **vets a third-party skill before it runs as you**. A skill is untrusted instructions executing with your privileges, and a skill that ships a hook is code that runs every turn — yet almost nobody reads one before installing. This statically scans a `SKILL.md` (plus any hooks/scripts it ships and the `settings.json` hook it would register) and returns a clear **ALLOW / REVIEW / BLOCK** verdict with the exact lines to remove.
 
+## Prerequisites
+
+Claude Code with `/plugin` support (v2.x+) and a shell if you use the manual fallback.
+
+## Install
+
+### Option 1 — Claude Code plugin marketplace (recommended)
+
+```bash
+/plugin marketplace add Zavelinski/claude-code-skills
+/plugin install skill-security-scan@claude-code-skills
+```
+
+Registered hooks (if any) install through the Claude Code consent UI, with no manual edit to `~/.claude/settings.json`.
+
+### Option 2 — Manual fallback (run it yourself)
+
+> **Security note.** This script mutates `~/.claude/settings.json` directly. Claude Code auto-mode blocks it because a third-party `UserPromptSubmit` hook that injects text into every prompt is a known risk vector. The script is benign and local-only (no network), but you must review and run it yourself. Prefer Option 1.
+
+```bash
+git clone https://github.com/Zavelinski/claude-code-skill-security-scan.git
+cd claude-code-skill-security-scan
+bash install.sh        # macOS / Linux
+.\install.ps1          # Windows (PowerShell)
+```
+
+## Uninstall
+
+```bash
+/plugin uninstall skill-security-scan@claude-code-skills    # Option 1
+bash uninstall.sh                                # Option 2 (or uninstall.ps1 on Windows)
+```
+
+## Update
+
+```bash
+/plugin marketplace update claude-code-skills    # Option 1
+# Option 2: pull the latest commit and re-run the manual fallback.
+```
+
 ## Why this exists
 
 Installing a skill from the internet is running someone else's instructions on your machine with your secrets, your shell, and your tools. A malicious `SKILL.md` or its hook can exfiltrate `.env` files, run `curl | sh`, or inject "ignore previous instructions" into the agent every turn (the hook/`settings.json` vector, CVE-2025-59536 class). This skill reads it all as hostile data first.
@@ -34,34 +74,6 @@ Each finding is reported as `file:line` + category + severity + the verbatim sni
 
 Everything scanned is read as **hostile data**. The scan never executes the skill, runs its hooks, or follows any instruction inside the files. Defensive use only.
 
-## Install
-
-```bash
-git clone https://github.com/Zavelinski/claude-code-skill-security-scan.git
-cd skill-security-scan
-```
-
-**macOS / Linux**
-```bash
-bash install.sh
-```
-
-**Windows (PowerShell)**
-```powershell
-.\install.ps1
-```
-
-Skill-only install (no hooks, no `settings.json` changes). Restart Claude Code, then ask **"is this skill safe?"** or `/skill-security-scan <path-or-url>`.
-
-## Uninstall
-
-```bash
-bash uninstall.sh      # macOS / Linux
-```
-```powershell
-.\uninstall.ps1        # Windows
-```
-
 ## Scope
 
 Static review of instructions and code — it catches what a careful human reviewer would, faster and consistently, before install. It is not a sandbox and does not guarantee the runtime safety of compiled or remote code it cannot see.
@@ -69,14 +81,3 @@ Static review of instructions and code — it catches what a careful human revie
 ## License
 
 MIT. See [LICENSE](LICENSE). Original work.
-
----
-
-## Install as a Claude Code plugin
-
-```bash
-/plugin marketplace add Zavelinski/claude-code-skills
-/plugin install skill-security-scan@claude-code-skills
-```
-
-Part of the **[claude-code-skills](https://github.com/Zavelinski/claude-code-skills)** collection: a suite of focused, original Claude Code skills.
