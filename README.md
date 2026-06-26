@@ -1,8 +1,8 @@
 # skill-security-scan for Claude Code
 
-[![License: MIT](https://img.shields.io/github/license/Zavelinski/skill-security-scan)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/Zavelinski/skill-security-scan?style=flat)](https://github.com/Zavelinski/skill-security-scan/stargazers)
-[![Last commit](https://img.shields.io/github/last-commit/Zavelinski/skill-security-scan)](https://github.com/Zavelinski/skill-security-scan/commits)
+[![License: MIT](https://img.shields.io/github/license/Zavelinski/claude-code-skill-security-scan)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/Zavelinski/claude-code-skill-security-scan?style=flat)](https://github.com/Zavelinski/claude-code-skill-security-scan/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/Zavelinski/claude-code-skill-security-scan)](https://github.com/Zavelinski/claude-code-skill-security-scan/commits)
 [![Claude Code skill](https://img.shields.io/badge/Claude%20Code-skill-8A2BE2)](https://claude.com/claude-code)
 
 A [Claude Code](https://claude.com/claude-code) skill that **vets a third-party skill before it runs as you**. A skill is untrusted instructions executing with your privileges, and a skill that ships a hook is code that runs every turn — yet almost nobody reads one before installing. This statically scans a `SKILL.md` (plus any hooks/scripts it ships and the `settings.json` hook it would register) and returns a clear **ALLOW / REVIEW / BLOCK** verdict with the exact lines to remove.
@@ -37,7 +37,7 @@ Everything scanned is read as **hostile data**. The scan never executes the skil
 ## Install
 
 ```bash
-git clone https://github.com/Zavelinski/skill-security-scan.git
+git clone https://github.com/Zavelinski/claude-code-skill-security-scan.git
 cd skill-security-scan
 ```
 
@@ -69,3 +69,14 @@ Static review of instructions and code — it catches what a careful human revie
 ## License
 
 MIT. See [LICENSE](LICENSE). Original work.
+
+---
+
+## Install as a Claude Code plugin
+
+```bash
+/plugin marketplace add Zavelinski/claude-code-skills
+/plugin install skill-security-scan@claude-code-skills
+```
+
+Part of the **[claude-code-skills](https://github.com/Zavelinski/claude-code-skills)** collection: a suite of focused, original Claude Code skills.
